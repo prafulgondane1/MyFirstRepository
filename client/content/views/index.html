@@ -1,0 +1,50 @@
+<!doctype html>
+<html ng-app="meetupApp">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="Generator" content="EditPlus®">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+  <title>Document</title>
+ </head>
+ <body>
+     <h1>Hello!</h1>
+	 <div ng-controller='meetupController'>
+				There are {{ meetups.length }} meetups.
+			<ul>
+			<li ng-repeat = "meetup in meetups">
+				{{meetup.name}}
+			</li>
+			</ul>
+			<form ng-submit="createMeetup()">
+			<input type="text" placeholder="Enter Name" ng-model="meetupName"></input>
+			<button type="submit">ADD</button>
+			</form>
+
+	 </div>
+	 <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.js"></script>
+	 <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular-resource.js"></script>
+	 <script>
+		var app = angular.module('meetupApp',['ngResource']);
+
+		app.controller('meetupController',['$scope','$resource',function($scope,$resource){
+			var Meetup = $resource('/api/meetups');
+
+			$scope.meetupCount = 10;
+
+			$scope.meetups = [
+				{ name : "Akhil"},
+				{ name : "Praful"}
+			];
+
+			$scope.createMeetup = function(){
+				var meetup = new Meetup();
+				meetup.name = $scope.meetupName;
+				meetup.$save();
+			}
+		}]);
+
+	 </script>
+ </body>
+</html>
